@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rajeev & Rimple — 25th WEDDING ANNIVERSARY</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bhue: 350;
+    --bsat: 55;
+    --blig: 20;
+    --r-light: hsl(var(--bhue), calc(var(--bsat)*1%), calc(var(--blig)*1% + 30%));
+    --r-mid:   hsl(var(--bhue), calc(var(--bsat)*1%), calc(var(--blig)*1% + 8%));
+    --r-dark:  hsl(var(--bhue), calc(var(--bsat)*1%), calc(var(--blig)*1% - 8%));
+    --bg: #f7f4f1;
+    --accent: hsl(var(--bhue), calc(var(--bsat)*1%), calc(var(--blig)*1% + 6%));
+    --shadow-strong: 0 28px 60px rgba(10,10,10,.14);
+    --rule: rgba(107,51,41,0.18);
+  }
+
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Montserrat,system-ui;display:flex;align-items:center;justify-content:center}
+  .stage{width:95%;max-width:980px;height:88vh;display:flex;align-items:center;justify-content:center;position:relative}
+
+  /* envelope */
+  .envelope{width:820px;height:460px;position:relative;perspective:2000px;cursor:pointer; -webkit-tap-highlight-color: transparent;}
+  .env-body{position:absolute;inset:0;border-radius:18px;background:linear-gradient(180deg,#f7efe6,#efe3d6);box-shadow:var(--shadow-strong)}
+  .flap{position:absolute;left:0;right:0;top:0;height:68%;transform-origin:50% 100%;background:linear-gradient(180deg,#fbf2e9,#f0decc);transition:transform .7s cubic-bezier(.18,.9,.15,1);clip-path:polygon(0 0,100% 0,50% 100%);z-index:80;box-shadow:0 18px 40px rgba(0,0,0,.06)}
+  .collar{position:absolute;left:0;right:0;bottom:0;height:36%;background:linear-gradient(180deg,#f3e6d9,#e6cdb8);border-radius:0 0 18px 18px}
+
+  /* ribbon */
+  .ribbon-horizontal {
+    position:absolute;
+    left:6%;
+    right:6%;
+    top:44%;
+    height:72px;
+    border-radius:16px;
+    z-index:220;
+    box-shadow:0 18px 40px rgba(0,0,0,.14), inset 0 6px 18px rgba(255,255,255,0.03);
+    overflow:visible;
+    transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .45s;
+    pointer-events:none;
+  }
+  .ribbon-horizontal::before{
+    content:'';position:absolute;inset:0;border-radius:12px;
+    background:linear-gradient(90deg,var(--r-dark) 0%,var(--r-mid) 45%,var(--r-light) 55%,var(--r-dark) 100%);
+    box-shadow:inset 0 8px 20px rgba(0,0,0,.12);
+  }
+  .ribbon-horizontal::after{
+    content:'';position:absolute;left:8%;right:8%;top:14%;height:36%;border-radius:10px;
+    background:linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0.02));
+    mix-blend-mode:overlay;opacity:.95;
+  }
+
+  .ribbon-knot {
+    position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+    width:110px;height:110px;border-radius:50%;z-index:240;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 22px 38px rgba(0,0,0,0.22),
+               inset 0 10px 18px rgba(255,255,255,0.36),
+               inset 0 -8px 18px rgba(0,0,0,0.12);
+    background:radial-gradient(circle at 30% 28%, rgba(255,255,255,0.6) 0 6%, transparent 12%),
+               linear-gradient(180deg, var(--r-light), var(--r-dark));
+    border:6px solid rgba(255,255,255,0.06);
+    pointer-events:none;
+  }
+
+  .ribbon-vertical-strip {
+    position:absolute;left:50%;top:22%;transform:translateX(-50%);
+    width:72px;height:100%;z-index:210;border-radius:12px;
+    transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .45s;
+    box-shadow:0 14px 30px rgba(0,0,0,0.14), inset 0 6px 18px rgba(255,255,255,0.03);
+    pointer-events:none;
+  }
+  .ribbon-vertical-strip::before{
+    content:'';position:absolute;inset:0;border-radius:12px;
+    background:linear-gradient(180deg,var(--r-dark) 0%,var(--r-mid) 50%,var(--r-light) 100%);
+  }
+
+  .envelope.untie .ribbon-horizontal{transform:translateX(-9999px);opacity:0;}
+  .envelope.untie .ribbon-vertical-strip{transform:translateY(-420%) rotate(-18deg);opacity:0;}
+  .envelope.untie .ribbon-knot{transform:translate(-50%,-50%) scale(.06) translateY(-220px) rotate(-30deg);opacity:0;}
+
+  /* card */
+  .card-wrap{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:760px;height:420px;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:110}
+  .card{
+    width:100%;height:100%;border-radius:14px;box-shadow:0 40px 80px rgba(10,10,10,.16);
+    transition:transform .3s,opacity .3s;display:flex;flex-direction:column;overflow:hidden;padding:18px 34px;opacity:0;
+    background:linear-gradient(180deg,rgba(255,250,248,1),rgba(255,246,244,1));position:relative;
+  }
+  .card::after{
+    content:'';position:absolute;inset:8px;border-radius:10px;pointer-events:none;
+    border:1.6px solid rgba(120,80,72,0.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .card.visible{opacity:1;transform:translateY(0) scale(1)}
+  .card.full{width:820px;height:520px;max-width:94vw;max-height:86vh}
+
+  .card-inner{position:relative;z-index:3;display:flex;flex-direction:column;gap:8px;height:100%;width:100%;align-items:center;justify-content:center}
+  .subtitle{text-align:center;font-family:Playfair Display,serif;color:#8a4b39;letter-spacing:2px;font-size:13px;margin-top:6px;margin-bottom:12px}
+  .names{font-family:'Great Vibes',cursive;font-size:86px;color:var(--accent);line-height:0.84;margin:0 0 6px 6px}
+
+  /* date row styled like reference, tighter spacing and bold month */
+  .big-date-row{
+    display:flex;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    gap:36px;
+    margin-top:6px;
+    margin-bottom:6px;
+  }
+
+  .side-block{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:150px;
+    gap:6px;
+  }
+  .side-block .rule{
+    width:85%;
+    height:1px;
+    background:linear-gradient(90deg, rgba(107,51,41,0.0), var(--rule), rgba(107,51,41,0.0));
+    border-radius:2px;
+  }
+  .side-block .label{
+    font-family:Playfair Display,serif;
+    font-size:18px;
+    color:#6b3328;
+    letter-spacing:3px;
+    padding:4px 12px;
+  }
+
+  .center-block{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:140px;
+    margin:0 6px;
+  }
+  .center-block .month{
+    font-family:Playfair Display,serif;
+    font-size:14px;
+    color:#6b3328;
+    letter-spacing:4px;
+    margin-bottom:4px;
+    font-weight:700;
+  }
+  .big-day{font-family:Playfair Display,serif;font-size:86px;color:var(--accent);font-weight:900;line-height:0.84}
+  .small-year{font-family:Playfair Display,serif;font-size:13px;color:#6b3328;margin-top:6px}
+
+  /* AT 7:00 PM styling to match reference */
+  .side-block .time {
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-weight:700;
+    font-size:18px;
+    color:#6b3328;
+  }
+
+  .venue{text-align:center;font-family:Playfair Display,serif;font-size:15px;color:#5b3d35;margin-top:8px;padding:0 26px}
+  .invitation{text-align:center;font-size:16px;color:#5b3d35;margin-top:10px;padding-bottom:8px;font-style:italic}
+  .guest-line{font-family:Playfair Display,serif;color:#6b3a33;margin-top:6px;font-size:15px;opacity:0.95}
+
+  .overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:260;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .24s}
+  .overlay.show{opacity:1;pointer-events:auto}
+  .modal{background:linear-gradient(180deg,#fffaf6,#fff2ec);padding:28px;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.28);text-align:center;max-width:560px}
+  .choices{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .choice{padding:10px 18px;border-radius:10px;border:2px solid transparent;background:#fff;font-weight:700;cursor:pointer}
+  .choice.father{background:linear-gradient(90deg,#d19b8a,#b86b45);color:#fff}
+  .choice.mother{background:linear-gradient(90deg,#b86b45,#8f3f3b);color:#fff}
+  .choice.other{background:#fff;border-color:#d8c6bf;color:#6b4a42}
+
+  canvas.fireworks{position:absolute;inset:0;pointer-events:none;z-index:240}
+  .start-message{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.9);z-index:9999;font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#6b3328;text-align:center;transition:opacity .5s ease; -webkit-tap-highlight-color: transparent;}
+  .start-message.hidden{opacity:0;pointer-events:none;}
+
+  @media (max-width:900px){
+    .envelope{width:92vw;height:58vw}
+    .names{font-size:42px}
+    .big-day{font-size:54px}
+    .card-wrap{top:50%}
+    .ribbon-horizontal{height:56px}
+    .ribbon-knot{width:84px;height:84px}
+    .big-date-row{gap:18px}
+    .side-block{min-width:90px}
+    .center-block{min-width:100px}
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas class="fireworks" id="fireworks"></canvas>
+
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open envelope">
+      <div class="env-body"></div>
+      <div class="flap" id="flap"></div>
+      <div class="collar"></div>
+
+      <div class="ribbon-horizontal" id="ribbonBand"></div>
+      <div class="ribbon-vertical-strip" id="ribbonVert"></div>
+      <div class="ribbon-knot" id="ribbonKnot"><div style="font-weight:700;color:rgba(0,0,0,0.22);font-family:Playfair Display,serif;font-size:18px;">25</div></div>
+
+      <div class="card-wrap" id="cardWrap">
+        <div class="card" id="card">
+          <div class="card-inner">
+            <div class="subtitle">YOU ARE CORDIALLY INVITED TO JOIN US FOR</div>
+            <div class="names">Rajeev &amp; Rimple's</div>
+
+            <!-- Anniversary heading (all caps) -->
+            <div style="font-family:Playfair Display,serif;font-weight:700;letter-spacing:3px;color:#6b3328;font-size:18px;text-transform:uppercase;text-align:center;">
+              25TH WEDDING ANNIVERSARY
+            </div>
+
+            <!-- guest-line will appear under the anniversary heading -->
+            <div id="guestLineContainer" style="height:28px;"></div>
+
+            <!-- UPDATED date/time block -->
+            <div class="big-date-row" role="group" aria-label="Date and time">
+              <!-- Left block: day label with rules -->
+              <div class="side-block" aria-hidden="false">
+                <div class="rule" aria-hidden="true"></div>
+                <div class="label">SATURDAY</div>
+                <div class="rule" aria-hidden="true"></div>
+              </div>
+
+              <!-- Center block: month above, big day, year below -->
+              <div class="center-block">
+                <div class="month">DECEMBER</div>
+                <div class="big-day">7</div>
+                <div class="small-year">2025</div>
+              </div>
+
+              <!-- Right block: time label with rules -->
+              <div class="side-block" aria-hidden="false">
+                <div class="rule" aria-hidden="true"></div>
+                <div class="label time">AT 7:00 PM</div>
+                <div class="rule" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <div class="venue">Hotel Clarion Inn, Arjan Complex, Main Sirhind Road</div>
+            <div class="invitation">Let’s come together for an evening filled with love, laughter, and cherished memories.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="start-message" id="startMsg">✨ Click on the card to reveal the surprise! ✨</div>
+
+    <!-- Updated Modal -->
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h2 style="font-family:'Playfair Display',serif;margin:0 0 12px;font-size:22px;color:#6b3328">
+          Which family branch are you from?
+        </h2>
+        <p style="margin:0 0 6px;color:#5b3d35">Please choose your connection to the couple:</p>
+        <div class="choices" role="radiogroup" aria-label="Guest side selection">
+          <div class="choice father" id="fatherBtn" role="button" tabindex="0">Rajeev’s side</div>
+          <div class="choice mother" id="motherBtn" role="button" tabindex="0">Rimple’s side</div>
+          <div class="choice other" id="otherBtn" role="button" tabindex="0">Other</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* fireworks */
+(function(){
+  const c=document.getElementById('fireworks'),ctx=c.getContext('2d');
+  let W,H,parts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+  addEventListener('resize',resize);resize();
+  function rand(a,b){return Math.random()*(b-a)+a}
+  function spawn(){for(let j=0;j<3;j++){const cx=W*(0.25+Math.random()*0.5),cy=H*0.2,count=80;for(let i=0;i<count;i++){const ang=Math.random()*Math.PI*2,spd=rand(2,9);parts.push({x:cx,y:cy,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,r:rand(2,6),c:['#ffd9c6','#ffd166','#f08a5d','#b83b5e','#c08b6a'][Math.floor(Math.random()*5)],life:rand(1200,2400),age:0})}}}
+  function frame(){ctx.clearRect(0,0,W,H);for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.age+=16;p.vy+=0.12;p.x+=p.vx;p.y+=p.vy;ctx.beginPath();ctx.fillStyle=p.c;ctx.globalAlpha=1-p.age/p.life;ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();if(p.age>p.life)parts.splice(i,1)}requestAnimationFrame(frame)}
+  requestAnimationFrame(frame);
+  window._spawnFire=spawn;
+})();
+
+/* UI logic */
+const envelope=document.getElementById('envelope');
+const flap=document.getElementById('flap');
+const overlay=document.getElementById('overlay');
+const card=document.getElementById('card');
+const startMsg=document.getElementById('startMsg');
+const ribbonBand=document.getElementById('ribbonBand');
+const ribbonVert=document.getElementById('ribbonVert');
+const ribbonKnot=document.getElementById('ribbonKnot');
+const guestLineContainer=document.getElementById('guestLineContainer');
+const fatherBtn=document.getElementById('fatherBtn');
+const motherBtn=document.getElementById('motherBtn');
+const otherBtn=document.getElementById('otherBtn');
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function openEnvelope(){
+  if(envelope.classList.contains('open')) return;
+  envelope.classList.add('open');
+  flap.style.transform='translateY(-480%) rotateX(-180deg)';
+  await wait(700);
+  envelope.classList.add('untie');
+  await wait(850);
+  ribbonBand.style.display='none'; ribbonVert.style.display='none'; ribbonKnot.style.display='none';
+  overlay.classList.add('show');
+}
+
+/* ---------- UI logic (fixed) ---------- */
+startMsg.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  if (startMsg.classList.contains('hidden')) return;
+  startMsg.classList.add('hidden');
+  await wait(220);
+  openEnvelope();
+});
+
+envelope.addEventListener('click', async () => {
+  if (!startMsg.classList.contains('hidden')) {
+    startMsg.classList.add('hidden');
+    await wait(180);
+  }
+  openEnvelope();
+});
+
+envelope.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); envelope.click(); }
+});
+
+/* Insert personalized guest-line and reveal card */
+function showGuestAndReveal(side) {
+  guestLineContainer.innerHTML = '';
+  const el = document.createElement('div');
+  el.className = 'guest-line';
+  if (side === 'father') el.textContent = 'Rajeev’s family cordially invites you to celebrate love and togetherness';
+  else if (side === 'mother') el.textContent = 'With warm regards from Rimple’s family — your presence means the world.';
+  else el.textContent = 'Warm welcome — we are delighted to have you!';
+  guestLineContainer.appendChild(el);
+
+  overlay.classList.remove('show');
+  card.classList.add('visible','full');
+  flap.style.pointerEvents = 'none';
+
+  if (window._spawnFire) window._spawnFire();
+  setTimeout(() => { if (window._spawnFire) window._spawnFire(); }, 420);
+}
+
+/* modal button handlers */
+fatherBtn.addEventListener('click', () => showGuestAndReveal('father'));
+motherBtn.addEventListener('click', () => showGuestAndReveal('mother'));
+otherBtn.addEventListener('click', () => showGuestAndReveal('other'));
+
+/* keyboard accessibility for modal buttons */
+[fatherBtn, motherBtn, otherBtn].forEach(btn => {
+  btn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+  });
+});
+</script>
+</body>
+</html>
